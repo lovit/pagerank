@@ -1,10 +1,10 @@
-def pagerank(G_inbound, bias=None, df=0.15, 
+def pagerank(G, bias=None, df=0.15,
              max_iter=50, converge_error=0.001,verbose=0):
     """
     Arguments
     ---------
-    G_inbound: Inbound graph, dict of dict
-        G_inbound[to_node][from_node] = weight (float)
+    G: Inbound graph, dict of dict
+        G[to_node][from_node] = weight (float)
     df: damping factor, float. default 0.15
     """
     
