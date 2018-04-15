@@ -27,7 +27,7 @@ def pagerank(G, bias=None, df=0.15,
         for t in nodes:
             f_dict = A.get(t, {})
             rank_t = sum((w*rank[f] for f, w in f_dict.items())) if f_dict else 0
-            rank_t = sr * rank_t + df * bias.get(f, ir)
+            rank_t = sr * rank_t + df * bias.get(t, ir)
             rank_new[t] = rank_t
         
         # convergence check
@@ -38,7 +38,7 @@ def pagerank(G, bias=None, df=0.15,
             break
         
         if verbose:
-            print('Iteration = {}'.format(_iter))
+            print('Iteration = {}, diff = {}'.format(_iter, diff))
         
         rank = rank_new
     
