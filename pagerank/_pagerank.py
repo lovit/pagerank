@@ -8,42 +8,43 @@ def pagerank(G, bias=None, df=0.15,
     df: damping factor, float. default 0.15
     """
     
-    if not bias:
-        bias = {}
-    
     A, nodes = _normalize(G)
     N = len(nodes) # number of nodes
     sr = 1 - df # survival rate (1 -  damping factor)
     ir = 1 / N # initial rank
-    
+
     # Initialization
     rank = {n:ir for n in nodes}
-    
+
+    # Initialization of bias
+    if not bias:
+        bias = {node:ir for node in nodes}
+
     # Iteration
     for _iter in range(1, max_iter + 1):
         rank_new = {}
-        
+
         # t: to node, f: from node, w: weight
         for t in nodes:
             f_dict = A.get(t, {})
             rank_t = sum((w*rank[f] for f, w in f_dict.items())) if f_dict else 0
-            rank_t = sr * rank_t + df * bias.get(t, ir)
+            rank_t = sr * rank_t + df * bias.get(t, 0)
             rank_new[t] = rank_t
-        
+
         # convergence check
         diff = sum((abs(rank[n] - rank_new[n]) for n in nodes))
         if diff < converge_error:
             if verbose:
                 print('Early stopped at iter = {}'.format(_iter))
             break
-        
+
         if verbose:
             print('Iteration = {}, diff = {}'.format(_iter, diff))
-        
+
         rank = rank_new
-    
+
     return rank
-                
+
 
 def _normalize(G):
     """It returns outbound normalized graph
