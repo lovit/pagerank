@@ -39,7 +39,8 @@ def pagerank(G, bias=None, df=0.15,
             break
 
         if verbose:
-            print('Iteration = {}, diff = {}'.format(_iter, diff))
+            sum_ = sum(rank_new.values())
+            print('Iteration = {}, diff = {}, sum = {}'.format(_iter, diff, sum_))
 
         rank = rank_new
 
